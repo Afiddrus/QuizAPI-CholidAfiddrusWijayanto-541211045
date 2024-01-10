@@ -3,10 +3,10 @@ const router = require('express').Router();
 
 router.post('/', quizController.create);
 router.get('/', quizController.getAll);
-router.get('/', quizController.findOne);
-router.put('/', quizController.update);
-router.delete('/', quizController.delete);
-router.get('/', quizController.getByCategoryId);
-router.get('/', quizController.getByLevelId);
+router.get('/:id', quizController.findOne);
+router.put('/:id', quizController.update);
+router.delete('/:id', quizController.delete);
+router.get('/category/:id', quizController.getByCategoryId);
+router.get('/level/:id', quizController.getByLevelId);
 
 module.exports = router;
