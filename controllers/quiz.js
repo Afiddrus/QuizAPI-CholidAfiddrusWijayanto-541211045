@@ -38,7 +38,7 @@ exports.getAll = async(req, res) => {
 exports.update = async (req,res) => {
     const id = req.params.id
     try {
-        const quiz = await Quiz.findbyPk(id, { rejectOnEmpty: true })
+        const quiz = await Quiz.findByPk(id, { rejectOnEmpty: true })
         quiz.update(req.body, {
             where: {id}
         })
@@ -59,7 +59,7 @@ exports.update = async (req,res) => {
 exports.delete = async (req, res) => {
     const id = req.params.id
     try {
-        const quiz = await Quiz.findbyPk(id, { rejectOnEmpty: true})
+        const quiz = await Quiz.findByPk(id, { rejectOnEmpty: true})
 
         quiz.destroy()
 
@@ -75,21 +75,28 @@ exports.delete = async (req, res) => {
 }
 
 // Mengambil data sesuai id yang dikirimkan 
-exports.findOne = async (req,res) => {
-    const id = req.params.id
-    try{
-        const quiz = await Quiz.findbyPk(id, {rejectOnEmpty:true })
+exports.findOne = async (req, res) => {
+    const id = req.params.id;
+    try {
+        const quiz = await Quiz.findByPk(id);
+        if (!quiz) {
+            return res.status(404).json({
+                message: `Quiz with id = ${id} not found.`,
+                data: null,
+            });
+        }
         res.json({
-            message: `Quizzes retrieved successfully with id=${id}.`,
-            data:quiz,
+            message: `Quiz retrieved successfully with id=${id}.`,
+            data: quiz,
         });
     } catch (error) {
         res.status(500).json({
-            message: error.message || "Some error occured while retrieving quiz",
+            message: error.message || "Some error occurred while retrieving quiz",
             data: null,
         });
     }
 };
+
 
 // menampilkan atau mengambil semua data quiz berdasarkan category tertentu
 exports.getByCategoryId = async (req, res) => {
